@@ -13,25 +13,42 @@ namespace CinemaApp.Pages
 
         private void BtnRegister_Click(object sender, RoutedEventArgs e)
         {
-            if (TbFullName.Text == "" || TbLogin.Text == "" || PbPassword.Password == "")
+            bool result = Register(TbFullName.Text, TbLogin.Text, PbPassword.Password);
+            if (result)
+                NavigationService.Navigate(new MainPage());
+        }
+
+        public bool Register(string fullName, string login, string password)
+        {
+            if (string.IsNullOrWhiteSpace(fullName) || string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(password))
             {
                 MessageBox.Show("Заполните все поля!");
-                return;
+                return false;
             }
 
-            Users newUser = new Users
+            using (var db = new CinemaDBEntities())
             {
-                Login = TbLogin.Text.Trim(),
-                Password = PbPassword.Password,
-                FullName = TbFullName.Text.Trim()
-            };
+                var existing = db.Users.FirstOrDefault(u => u.Login == login);
+                if (existing != null)
+                {
+                    MessageBox.Show("Пользователь с таким логином уже существует!");
+                    return false;
+                }
 
-            Core.Context.Users.Add(newUser);
-            Core.Context.SaveChanges();
+                Users newUser = new Users
+                {
+                    Login = login.Trim(),
+                    Password = password,
+                    FullName = fullName.Trim()
+                };
 
-            Core.CurrentUser = newUser;
-            MessageBox.Show("Готово!");
-            NavigationService.Navigate(new MainPage());
+                db.Users.Add(newUser);
+                db.SaveChanges();
+
+                Core.CurrentUser = newUser;
+                MessageBox.Show("Регистрация успешна!");
+                return true;
+            }
         }
 
         private void BtnBack_Click(object sender, RoutedEventArgs e)
