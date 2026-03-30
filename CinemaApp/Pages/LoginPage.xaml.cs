@@ -13,26 +13,30 @@ namespace CinemaApp.Pages
 
         private void BtnLogin_Click(object sender, RoutedEventArgs e)
         {
-            string login = TbLogin.Text.Trim();
-            string password = PbPassword.Password;
+            Auth(TbLogin.Text, PbPassword.Password);
+        }
 
-            if (login == "" || password == "")
+        public bool Auth(string login, string password)
+        {
+            if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(password))
             {
                 MessageBox.Show("Заполните все поля!");
-                return;
+                return false;
             }
 
-            var user = Core.Context.Users.FirstOrDefault(u => u.Login == login && u.Password == password);
-
-            if (user != null)
+            using (var db = new CinemaDBEntities())
             {
+                var user = db.Users.FirstOrDefault(u => u.Login == login && u.Password == password);
+
+                if (user == null)
+                {
+                    MessageBox.Show("Неверный логин или пароль!");
+                    return false;
+                }
+
                 Core.CurrentUser = user;
                 MessageBox.Show("Добро пожаловать, " + user.FullName);
-                NavigationService.Navigate(new MainPage());
-            }
-            else
-            {
-                MessageBox.Show("Неверный логин или пароль!");
+                return true;
             }
         }
 
