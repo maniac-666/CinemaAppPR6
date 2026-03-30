@@ -1,0 +1,47 @@
+<Page x:Class="CinemaApp.Pages.FilmPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Фильм">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Button Content="Назад" Grid.Row="0" HorizontalAlignment="Left"
+                Padding="10,5" Click="BtnBack_Click" Margin="0,0,0,10"/>
+
+        <StackPanel Grid.Row="1" Margin="0,0,0,10">
+            <TextBlock x:Name="TbTitle" FontSize="20" FontWeight="Bold"/>
+            <TextBlock x:Name="TbInfo" Margin="0,5,0,0"/>
+            <TextBlock x:Name="TbDescription" TextWrapping="Wrap" Margin="0,5,0,0"/>
+        </StackPanel>
+
+        <TextBlock Grid.Row="2" Text="Сеансы:" FontSize="16" FontWeight="Bold" Margin="0,0,0,5"/>
+
+        <ListBox x:Name="LbSessions" Grid.Row="3"
+                 MouseDoubleClick="LbSessions_MouseDoubleClick">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <TextBlock Text="{Binding SessionDate, StringFormat='{}{0:dd.MM.yyyy}'}" Margin="0,0,10,0"/>
+                        <TextBlock Text="{Binding SessionTime}" Margin="0,0,10,0"/>
+                        <TextBlock>
+                            <Run Text="Зал "/>
+                            <Run Text="{Binding Halls.Number, Mode=OneWay}"/>
+                            <Run Text=" ("/>
+                            <Run Text="{Binding Halls.Classification, Mode=OneWay}"/>
+                            <Run Text=")"/>
+                        </TextBlock>
+                        <TextBlock Margin="10,0,0,0">
+                            <Run Text="{Binding Price, Mode=OneWay}"/>
+                            <Run Text=" руб."/>
+                        </TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</Page>

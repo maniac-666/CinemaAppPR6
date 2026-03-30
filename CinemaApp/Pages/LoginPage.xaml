@@ -1,0 +1,18 @@
+<Page x:Class="CinemaApp.Pages.LoginPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Вход">
+    <StackPanel Margin="20" Width="300" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <TextBlock Text="Вход" FontSize="18" FontWeight="Bold" Margin="0,0,0,15"/>
+        
+        <TextBlock Text="Логин:"/>
+        <TextBox x:Name="TbLogin" Margin="0,0,0,10"/>
+        
+        <TextBlock Text="Пароль:"/>
+        <PasswordBox x:Name="PbPassword" Margin="0,0,0,15"/>
+        
+        <Button Content="Войти" Padding="10,5" Click="BtnLogin_Click" Margin="0,0,0,5"/>
+        <Button Content="Регистрация" Padding="10,5" Click="BtnRegister_Click" Margin="0,0,0,5"/>
+        <Button Content="Назад" Padding="10,5" Click="BtnBack_Click"/>
+    </StackPanel>
+</Page>
