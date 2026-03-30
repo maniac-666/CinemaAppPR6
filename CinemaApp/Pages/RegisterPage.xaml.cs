@@ -14,26 +14,24 @@ namespace CinemaApp.Pages
         private void BtnRegister_Click(object sender, RoutedEventArgs e)
         {
             bool result = Register(TbFullName.Text, TbLogin.Text, PbPassword.Password);
+
             if (result)
+            {
+                MessageBox.Show("Регистрация успешна!");
                 NavigationService.Navigate(new MainPage());
+            }
         }
 
         public bool Register(string fullName, string login, string password)
         {
             if (string.IsNullOrWhiteSpace(fullName) || string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(password))
-            {
-                MessageBox.Show("Заполните все поля!");
                 return false;
-            }
 
             using (var db = new CinemaDBEntities())
             {
                 var existing = db.Users.FirstOrDefault(u => u.Login == login);
                 if (existing != null)
-                {
-                    MessageBox.Show("Пользователь с таким логином уже существует!");
                     return false;
-                }
 
                 Users newUser = new Users
                 {
@@ -46,7 +44,6 @@ namespace CinemaApp.Pages
                 db.SaveChanges();
 
                 Core.CurrentUser = newUser;
-                MessageBox.Show("Регистрация успешна!");
                 return true;
             }
         }
