@@ -6,3 +6,4 @@ namespace CinemaApp
         public static Users CurrentUser = null;
     }
 }
+//
